@@ -16,7 +16,6 @@ namespace WebAtividadeEntrevista.Controllers
             return View();
         }
 
-
         public ActionResult Incluir()
         {
             return View();
@@ -34,7 +33,7 @@ namespace WebAtividadeEntrevista.Controllers
                                       select error.ErrorMessage).ToList();
 
                 Response.StatusCode = 400;
-                return Json(string.Join(Environment.NewLine, erros));
+                return Json(string.Join("</br>", erros));
             }
             else
             {
@@ -52,12 +51,6 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone
                 });
-
-                if(model.Id == 0)
-                {
-                    Response.StatusCode = 400;
-                    return Json("Cadastro não efetuado, CPF já existente");
-                }
                 return Json("Cadastro efetuado com sucesso");
             }
         }
