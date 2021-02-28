@@ -1,0 +1,39 @@
+﻿<div class="modal" tabindex="-1" role="dialog" id="ModalIncluirBeneficiarios">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Inclusão de beneficiários</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="Beneficiario_Nome">Nome:</label>
+                            <input required="required" type="text" class="form-control" id="Beneficiario_Nome" name="Beneficiario_Nome" placeholder="Ex.: João" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="Beneficiario_CPF">CPF:</label>
+                            <input required="required" type="text" class="form-control" id="Beneficiario_CPF" name="Beneficiario_CPF" maxlength="11" placeholder="Ex.: 111.111.111-11" pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group" style="margin-top:27px">
+                            <button type="button" id="BtnIncluirBeneficiario" onclick="BtnIncluirBeneficiario_onClick()" class="btn btn-sm btn-default">Incluir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="gridBeneficiarios" class="table"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -62,10 +62,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\BoCliente.cs" />
-    <Compile Include="BLL\Validacoes\CPFJaExistenteAttribute.cs" />
+    <Compile Include="BLL\Beneficiarios\BoBeneficiario.cs" />
+    <Compile Include="BLL\Clientes\BoCliente.cs" />
+    <Compile Include="BLL\Clientes\Validacoes\CPFJaExistenteAttribute.cs" />
+    <Compile Include="DAL\Beneficiarios\DaoBeneficiario.cs" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
     <Compile Include="DAL\Padrao\FI.AcessoDados.cs" />
+    <Compile Include="DML\Beneficiario.cs" />
     <Compile Include="DML\Cliente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -88,6 +91,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_AltBenef.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_DelBeneficiario.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_IncBeneficiario.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
