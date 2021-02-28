@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="BLL\Beneficiarios\BoBeneficiario.cs" />
     <Compile Include="BLL\Clientes\BoCliente.cs" />
-    <Compile Include="BLL\Clientes\Validacoes\CPFJaExistenteAttribute.cs" />
     <Compile Include="DAL\Beneficiarios\DaoBeneficiario.cs" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
     <Compile Include="DAL\Padrao\FI.AcessoDados.cs" />
@@ -95,6 +94,7 @@
   <ItemGroup>
     <Content Include="DAL\Beneficiarios\Procedures\FI_SP_AltBenef.sql" />
     <Content Include="DAL\Beneficiarios\Procedures\FI_SP_DelBeneficiario.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_DelBeneficiarios.sql" />
     <Content Include="DAL\Beneficiarios\Procedures\FI_SP_IncBeneficiario.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

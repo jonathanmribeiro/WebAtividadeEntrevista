@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using FI.AtividadeEntrevista.BLL.Validacoes;
 
 namespace WebAtividadeEntrevista.Models
 {
@@ -73,7 +72,6 @@ namespace WebAtividadeEntrevista.Models
         /// </summary>
         [Required]
         [RegularExpression(@"^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$", ErrorMessage = "CPF inválido")]
-        [CPFJaExistente(ErrorMessage = "CPF já cadastrado")]
         public string CPF { get; set; }
 
         /// <summary>

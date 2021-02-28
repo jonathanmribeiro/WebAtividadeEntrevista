@@ -12,23 +12,20 @@ $(document).ready(function () {
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
-        ObterBeneficiarios(obj.Id)
+        beneficiarios = obj.Beneficiarios;
+        $('#formCadastro #CPF').prop("disabled", true);
     }
 
     $('#formCadastro').submit(formCadastro_submit);
     $('#MdlBeneficiarios_form').submit(MdlBeneficiarios_Incluir);
+    $("#CPF").mask("999.999.999-99");
 });
 
 function formCadastro_submit(e) {
     e.preventDefault();
 
-    if (!validarCPF($(this).find("#CPF").val())) {
-        ModalDialog("Erro", "CPF não é válido")
-        return;
-    }
-
     beneficiarios.forEach(function (benef) {
-        benef.cpf = removerMascara(benef.cpf);
+        benef.CPF = removerMascara(benef.CPF);
     });
 
     $.ajax({
@@ -81,22 +78,10 @@ function removerMascara(cpf) {
 }
 
 /////////////////////////////////////////MdlBeneficiarios/////////////////////////////////////////
-function ObterBeneficiarios(idCliente) {
-    $.ajax({
-        url: "/Cliente/ObterBeneficiarios",
-        method: "GET",
-        data: {
-            id: 0,
-            idCliente: idCliente
-        },
-        error: function (r) { },
-        success: function (r) { return beneficiarios = r.Records; }
-    });
-}
-
 function MdlBeneficiarios_Exibir() {
-    document.getElementById('MdlBeneficiarios_btnIncluir').innerText = 'Alterar';
+    $("#MdlBeneficiarios_CPF").mask("999.999.999-99");
     $('#MdlBeneficiarios').modal('show');
+    document.getElementById('MdlBeneficiarios_btnIncluir').innerText = 'Incluir';
     MdlBeneficiarios_PrepararTabela();
 }
 
@@ -141,6 +126,7 @@ function MdlBeneficiarios_PrepararTabela() {
 }
 
 function MdlBeneficiarios_Alterar(index) {
+    document.getElementById('MdlBeneficiarios_btnIncluir').innerText = 'Salvar';
     $(document).find("#MdlBeneficiarios_Nome").val(beneficiarios[index].Nome);
     $(document).find("#MdlBeneficiarios_CPF").val(beneficiarios[index].CPF);
 }
@@ -152,6 +138,7 @@ function MdlBeneficiarios_Remover(index) {
 
 function MdlBeneficiarios_Incluir(e) {
     e.preventDefault();
+    document.getElementById('MdlBeneficiarios_btnIncluir').innerText = 'Incluir';
 
     var beneficiario = {
         Nome: $(document).find("#MdlBeneficiarios_Nome").val(),

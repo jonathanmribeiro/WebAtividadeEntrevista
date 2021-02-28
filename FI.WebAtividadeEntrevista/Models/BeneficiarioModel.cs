@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using FI.AtividadeEntrevista.BLL.Validacoes;
 
 namespace WebAtividadeEntrevista.Models
 {

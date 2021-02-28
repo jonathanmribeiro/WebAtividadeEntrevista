@@ -52,7 +52,16 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     Beneficiarios = converterBeneficiarios(model.Beneficiarios)
                 });
-                return Json("Cadastro efetuado com sucesso");
+
+                if (model.Id == 0)
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join("</br>", "CPF já cadastrado"));
+                }
+                else
+                {
+                    return Json("Cadastro efetuado com sucesso");
+                }
             }
         }
 
@@ -83,7 +92,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    Beneficiarios = converterBeneficiarios(model.Beneficiarios)
                 });
 
                 return Json("Cadastro alterado com sucesso");
@@ -95,7 +105,7 @@ namespace WebAtividadeEntrevista.Controllers
         {
             BoCliente bo = new BoCliente();
             Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
+            ClienteModel model = null;
 
             if (cliente != null)
             {
@@ -110,10 +120,10 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    Beneficiarios = converterBeneficiarios(cliente.Beneficiarios),
+                    CPF = cliente.CPF
                 };
-
-
             }
 
             return View(model);
@@ -145,21 +155,6 @@ namespace WebAtividadeEntrevista.Controllers
             }
         }
 
-        [HttpGet]
-        public JsonResult ObterBeneficiarios(long id, long idCliente)
-        {
-            try
-            {
-                List<Beneficiario> beneficiarios = new BoBeneficiario().Consultar(id, idCliente);
-                //Return result to jTable
-                return Json(new { Result = "OK", Records = beneficiarios }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         private List<Beneficiario> converterBeneficiarios(List<BeneficiarioModel> beneficiarios)
         {
             List<Beneficiario> lista = new List<Beneficiario>();
@@ -167,6 +162,23 @@ namespace WebAtividadeEntrevista.Controllers
             foreach (BeneficiarioModel beneficiario in beneficiarios)
             {
                 lista.Add(new Beneficiario()
+                {
+                    Nome = beneficiario.Nome,
+                    CPF = beneficiario.CPF
+                });
+            }
+
+            return lista;
+        }
+
+        private List<BeneficiarioModel> converterBeneficiarios(List<Beneficiario> beneficiarios)
+        {
+            if (beneficiarios == null) beneficiarios = new List<Beneficiario>();
+            List<BeneficiarioModel> lista = new List<BeneficiarioModel>();
+
+            foreach (Beneficiario beneficiario in beneficiarios)
+            {
+                lista.Add(new BeneficiarioModel()
                 {
                     Nome = beneficiario.Nome,
                     CPF = beneficiario.CPF

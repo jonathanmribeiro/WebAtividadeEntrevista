@@ -153,6 +153,7 @@ namespace FI.AtividadeEntrevista.DAL
                     Cliente cli = new Cliente
                     {
                         Id = row.Field<long>("Id"),
+                        CPF = row.Field<string>("CPF"),
                         CEP = row.Field<string>("CEP"),
                         Cidade = row.Field<string>("Cidade"),
                         Email = row.Field<string>("Email"),

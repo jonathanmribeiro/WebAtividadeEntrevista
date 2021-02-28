@@ -12,11 +12,15 @@ namespace FI.AtividadeEntrevista.BLL
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
             DAL.DaoBeneficiario benef = new DAL.DaoBeneficiario();
-            long ret = cli.Incluir(cliente);
-            foreach (DML.Beneficiario beneficiario in cliente.Beneficiarios)
+            long ret = 0;
+            if (!cli.VerificarExistencia(cliente.CPF))
             {
-                beneficiario.IdCliente = ret;
-                benef.Incluir(beneficiario);
+                ret = cli.Incluir(cliente);
+                foreach (DML.Beneficiario beneficiario in cliente.Beneficiarios)
+                {
+                    beneficiario.IdCliente = ret;
+                    benef.Incluir(beneficiario);
+                }
             }
             return ret;
         }
@@ -28,7 +32,14 @@ namespace FI.AtividadeEntrevista.BLL
         public void Alterar(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
+            DAL.DaoBeneficiario benef = new DAL.DaoBeneficiario();
             cli.Alterar(cliente);
+            benef.ExcluirBeneficiarios(cliente.Id);
+            foreach (DML.Beneficiario beneficiario in cliente.Beneficiarios)
+            {
+                beneficiario.IdCliente = cliente.Id;
+                benef.Incluir(beneficiario);
+            }
         }
 
         /// <summary>
@@ -39,7 +50,10 @@ namespace FI.AtividadeEntrevista.BLL
         public DML.Cliente Consultar(long id)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Consultar(id);
+            DAL.DaoBeneficiario benef = new DAL.DaoBeneficiario();
+            DML.Cliente cliente = cli.Consultar(id);
+            cliente.Beneficiarios = benef.Consultar(0, cliente.Id);
+            return cliente;
         }
 
         /// <summary>
