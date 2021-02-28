@@ -13,7 +13,7 @@ namespace FI.AtividadeEntrevista.BLL
             DAL.DaoCliente cli = new DAL.DaoCliente();
             DAL.DaoBeneficiario benef = new DAL.DaoBeneficiario();
             long ret = cli.Incluir(cliente);
-            foreach(DML.Beneficiario beneficiario in cliente.Beneficiarios)
+            foreach (DML.Beneficiario beneficiario in cliente.Beneficiarios)
             {
                 beneficiario.IdCliente = ret;
                 benef.Incluir(beneficiario);
@@ -68,7 +68,13 @@ namespace FI.AtividadeEntrevista.BLL
         public List<DML.Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Pesquisa(iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
+            DAL.DaoBeneficiario benef = new DAL.DaoBeneficiario();
+            List<DML.Cliente> listaClientes = cli.Pesquisa(iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
+            foreach (DML.Cliente cliente in listaClientes)
+            {
+                cliente.Beneficiarios = benef.Consultar(0, cliente.Id);
+            }
+            return listaClientes;
         }
 
         /// <summary>

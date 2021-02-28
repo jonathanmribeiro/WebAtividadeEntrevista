@@ -26,5 +26,11 @@ namespace WebAtividadeEntrevista.Models
         [Required]
         [RegularExpression(@"^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$", ErrorMessage = "CPF inválido")]
         public string CPF { get; set; }
+
+        /// <summary>
+        /// IdCliente
+        /// </summary>
+        [Required]
+        public long IdCliente { get; set; }
     }
 }

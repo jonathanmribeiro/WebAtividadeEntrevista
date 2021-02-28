@@ -2,18 +2,22 @@
 
 $(document).ready(function () {
     $("#CPF").mask("999.999.999-99");
+    $("#MdlBeneficiarios_CPF").mask("999.999.999-99");
     $('#formCadastro').submit(formCadastro_Submit);
     $('#MdlBeneficiarios_form').submit(MdlBeneficiarios_Incluir);
-
-    MdlBeneficiarios_PrepararTabela();
 });
 
 function formCadastro_Submit(e) {
     e.preventDefault();
+
     if (!validarCPF($(this).find("#CPF").val())) {
         ModalDialog("Erro", "CPF não é válido")
         return;
     }
+
+    beneficiarios.forEach(function (benef) {
+        benef.cpf = removerMascara(benef.cpf);
+    });
 
     $.ajax({
         url: urlPost,
@@ -77,6 +81,7 @@ function ModalDialog(titulo, texto) {
 
 function MdlBeneficiarios_Exibir() {
     $('#MdlBeneficiarios').modal('show');
+    MdlBeneficiarios_PrepararTabela();
 }
 
 function MdlBeneficiarios_Incluir(e) {

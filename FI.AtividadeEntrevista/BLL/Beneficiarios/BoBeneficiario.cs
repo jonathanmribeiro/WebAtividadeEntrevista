@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FI.AtividadeEntrevista.BLL.Beneficiarios
+namespace FI.AtividadeEntrevista.BLL
 {
     public class BoBeneficiario
     {

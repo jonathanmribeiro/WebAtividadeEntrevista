@@ -56,22 +56,6 @@ namespace WebAtividadeEntrevista.Controllers
             }
         }
 
-        private List<Beneficiario> converterBeneficiarios(List<BeneficiarioModel> beneficiarios)
-        {
-            List<Beneficiario> lista = new List<Beneficiario>();
-
-            foreach (BeneficiarioModel beneficiario in beneficiarios)
-            {
-                lista.Add(new Beneficiario()
-                {
-                    Nome = beneficiario.Nome,
-                    CPF = beneficiario.CPF
-                });
-            }
-
-            return lista;
-        }
-
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
@@ -152,7 +136,6 @@ namespace WebAtividadeEntrevista.Controllers
                     crescente = array[1];
 
                 List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
-
                 //Return result to jTable
                 return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
             }
@@ -160,6 +143,37 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
+
+        [HttpGet]
+        public JsonResult ObterBeneficiarios(long id, long idCliente)
+        {
+            try
+            {
+                List<Beneficiario> beneficiarios = new BoBeneficiario().Consultar(id, idCliente);
+                //Return result to jTable
+                return Json(new { Result = "OK", Records = beneficiarios }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private List<Beneficiario> converterBeneficiarios(List<BeneficiarioModel> beneficiarios)
+        {
+            List<Beneficiario> lista = new List<Beneficiario>();
+
+            foreach (BeneficiarioModel beneficiario in beneficiarios)
+            {
+                lista.Add(new Beneficiario()
+                {
+                    Nome = beneficiario.Nome,
+                    CPF = beneficiario.CPF
+                });
+            }
+
+            return lista;
         }
     }
 }
