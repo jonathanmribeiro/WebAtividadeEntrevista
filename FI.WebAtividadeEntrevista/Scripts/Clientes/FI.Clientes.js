@@ -1,9 +1,11 @@
-﻿var beneficiarios = [];
+﻿var beneficiarios = [{ nome: 'Jonathan', cpf: '07169991969' }, { nome: 'Carol', cpf: '04985724980' }];
 
 $(document).ready(function () {
     $("#CPF").mask("999.999.999-99");
     $('#formCadastro').submit(formCadastro_Submit);
-    $('#MdlBeneficiarios_form').submit(MdlBeneficiarios_Incluir)
+    $('#MdlBeneficiarios_form').submit(MdlBeneficiarios_Incluir);
+
+    MdlBeneficiarios_PrepararTabela();
 });
 
 function formCadastro_Submit(e) {
@@ -84,8 +86,67 @@ function MdlBeneficiarios_Incluir(e) {
         cpf: $(document).find("#MdlBeneficiarios_CPF").val()
     }
 
-    if (beneficiario.nome && beneficiario.cpf && !beneficiarios.find(function (benef) { return benef.cpf == beneficiario.cpf; }))
+    $(document).find("#MdlBeneficiarios_Nome").val('');
+    $(document).find("#MdlBeneficiarios_CPF").val('');
+
+    //Se o CPF já existir na lista atualiza o nome
+    var benefJaIncluido = beneficiarios.find(function (benef) { return benef.cpf == beneficiario.cpf; });
+
+    if (benefJaIncluido)
+        benefJaIncluido.nome = beneficiario.nome;
+    else if (beneficiario.nome && beneficiario.cpf)
         beneficiarios.push(beneficiario);
 
-    console.log(beneficiarios);
+    //De qualquer forma atualiza a tabela com os registros da lista beneficiarios
+    MdlBeneficiarios_PrepararTabela();
+}
+
+function MdlBeneficiarios_Alterar(index) {
+    $(document).find("#MdlBeneficiarios_Nome").val(beneficiarios[index].nome);
+    $(document).find("#MdlBeneficiarios_CPF").val(beneficiarios[index].cpf);
+}
+
+function MdlBeneficiarios_Remover(index) {
+    beneficiarios.splice(index, 1);
+    MdlBeneficiarios_PrepararTabela();
+}
+
+function MdlBeneficiarios_PrepararTabela() {
+    //Limpa a lista com jquery
+    var lista = $(document).find("#MdlBeneficiarios_lista").empty();
+
+    //Insere com javascript baseado no array beneficiarios
+    lista = document.getElementById('MdlBeneficiarios_tabela').getElementsByTagName('tbody')[0];
+
+    var linha = {};
+    var celula = {};
+    var texto = {};
+    var button = {};
+
+    beneficiarios.forEach(function (beneficiario, index) {
+        linha = lista.insertRow();
+
+        celula = linha.insertCell();
+        texto = document.createTextNode(beneficiario.nome);
+        celula.appendChild(texto);
+
+        celula = linha.insertCell();
+        texto = document.createTextNode(beneficiario.cpf);
+        celula.appendChild(texto);
+
+        celula = linha.insertCell();
+        button = document.createElement('button');
+        button.classList.add("btn");
+        button.classList.add("btn-default");
+        button.innerText = "Alterar";
+        button.onclick = function () { MdlBeneficiarios_Alterar(index); };
+        celula.appendChild(button);
+
+        button = document.createElement('button');
+        button.classList.add("btn");
+        button.classList.add("btn-default");
+        button.innerText = "Excluir";
+        button.onclick = function () { MdlBeneficiarios_Remover(index); };
+        celula.appendChild(button);
+    });
 }
