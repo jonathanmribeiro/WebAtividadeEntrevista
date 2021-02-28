@@ -1,4 +1,4 @@
-﻿var beneficiarios = [{ nome: 'Jonathan', cpf: '07169991969' }, { nome: 'Carol', cpf: '04985724980' }];
+﻿var beneficiarios = [];
 
 $(document).ready(function () {
     $("#CPF").mask("999.999.999-99");
@@ -28,7 +28,8 @@ function formCadastro_Submit(e) {
             "Estado": $(this).find("#Estado").val(),
             "Cidade": $(this).find("#Cidade").val(),
             "Logradouro": $(this).find("#Logradouro").val(),
-            "Telefone": $(this).find("#Telefone").val()
+            "Telefone": $(this).find("#Telefone").val(),
+            "Beneficiarios": beneficiarios
         },
         error:
             function (r) {

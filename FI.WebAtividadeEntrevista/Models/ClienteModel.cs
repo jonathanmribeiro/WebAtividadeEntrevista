@@ -76,5 +76,10 @@ namespace WebAtividadeEntrevista.Models
         [CPFJaExistente(ErrorMessage = "CPF já cadastrado")]
         public string CPF { get; set; }
 
+        /// <summary>
+        /// Beneficiários
+        /// </summary>
+        public List<BeneficiarioModel> Beneficiarios { get; set; }
+
     }
 }

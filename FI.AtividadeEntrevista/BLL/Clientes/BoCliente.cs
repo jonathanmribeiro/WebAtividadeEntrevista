@@ -11,7 +11,14 @@ namespace FI.AtividadeEntrevista.BLL
         public long Incluir(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Incluir(cliente);
+            DAL.DaoBeneficiario benef = new DAL.DaoBeneficiario();
+            long ret = cli.Incluir(cliente);
+            foreach(DML.Beneficiario beneficiario in cliente.Beneficiarios)
+            {
+                beneficiario.IdCliente = ret;
+                benef.Incluir(beneficiario);
+            }
+            return ret;
         }
 
         /// <summary>

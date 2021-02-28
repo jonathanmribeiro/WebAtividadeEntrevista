@@ -49,10 +49,27 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    Beneficiarios = converterBeneficiarios(model.Beneficiarios)
                 });
                 return Json("Cadastro efetuado com sucesso");
             }
+        }
+
+        private List<Beneficiario> converterBeneficiarios(List<BeneficiarioModel> beneficiarios)
+        {
+            List<Beneficiario> lista = new List<Beneficiario>();
+
+            foreach (BeneficiarioModel beneficiario in beneficiarios)
+            {
+                lista.Add(new Beneficiario()
+                {
+                    Nome = beneficiario.Nome,
+                    CPF = beneficiario.CPF
+                });
+            }
+
+            return lista;
         }
 
         [HttpPost]
