@@ -1,44 +1,47 @@
-﻿$(document).ready(function () {
+﻿var beneficiarios = [];
+
+$(document).ready(function () {
     $("#CPF").mask("999.999.999-99");
+    $('#formCadastro').submit(formCadastro_Submit);
+    $('#MdlBeneficiarios_form').submit(MdlBeneficiarios_Incluir)
+});
 
-    $('#formCadastro').submit(function (e) {
-        e.preventDefault();
-        if (!validarCPF($(this).find("#CPF").val())) {
-            ModalDialog("Erro", "CPF não é válido")
-            return;
-        }
+function formCadastro_Submit(e) {
+    e.preventDefault();
+    if (!validarCPF($(this).find("#CPF").val())) {
+        ModalDialog("Erro", "CPF não é válido")
+        return;
+    }
 
-        $.ajax({
-            url: urlPost,
-            method: "POST",
-            data: {
-                "NOME": $(this).find("#Nome").val(),
-                "CPF": removerMascara($(this).find("#CPF").val()),
-                "CEP": $(this).find("#CEP").val(),
-                "Email": $(this).find("#Email").val(),
-                "Sobrenome": $(this).find("#Sobrenome").val(),
-                "Nacionalidade": $(this).find("#Nacionalidade").val(),
-                "Estado": $(this).find("#Estado").val(),
-                "Cidade": $(this).find("#Cidade").val(),
-                "Logradouro": $(this).find("#Logradouro").val(),
-                "Telefone": $(this).find("#Telefone").val()
+    $.ajax({
+        url: urlPost,
+        method: "POST",
+        data: {
+            "NOME": $(this).find("#Nome").val(),
+            "CPF": removerMascara($(this).find("#CPF").val()),
+            "CEP": $(this).find("#CEP").val(),
+            "Email": $(this).find("#Email").val(),
+            "Sobrenome": $(this).find("#Sobrenome").val(),
+            "Nacionalidade": $(this).find("#Nacionalidade").val(),
+            "Estado": $(this).find("#Estado").val(),
+            "Cidade": $(this).find("#Cidade").val(),
+            "Logradouro": $(this).find("#Logradouro").val(),
+            "Telefone": $(this).find("#Telefone").val()
+        },
+        error:
+            function (r) {
+                if (r.status == 400)
+                    ModalDialog("Ocorreu um erro", r.responseJSON);
+                else if (r.status == 500)
+                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
             },
-            error:
-                function (r) {
-                    if (r.status == 400)
-                        ModalDialog("Ocorreu um erro", r.responseJSON);
-                    else if (r.status == 500)
-                        ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
-                },
-            success:
-                function (r) {
-                    ModalDialog("Sucesso!", r)
-                    $("#formCadastro")[0].reset();
-                }
-        });
-    })
-
-})
+        success:
+            function (r) {
+                ModalDialog("Sucesso!", r)
+                $("#formCadastro")[0].reset();
+            }
+    });
+}
 
 function validarCPF(cpf) {
     var retorno = true;
@@ -67,4 +70,22 @@ function ModalDialog(titulo, texto) {
     $('#MdlNotificacaoTitulo')[0].innerText = titulo;
     $('#MdlNotificacaoTexto')[0].innerText = texto;
     $('#MdlNotificacao').modal('show');
+}
+
+function MdlBeneficiarios_Exibir() {
+    $('#MdlBeneficiarios').modal('show');
+}
+
+function MdlBeneficiarios_Incluir(e) {
+    e.preventDefault();
+
+    var beneficiario = {
+        nome: $(document).find("#MdlBeneficiarios_Nome").val(),
+        cpf: $(document).find("#MdlBeneficiarios_CPF").val()
+    }
+
+    if (beneficiario.nome && beneficiario.cpf && !beneficiarios.find(function (benef) { return benef.cpf == beneficiario.cpf; }))
+        beneficiarios.push(beneficiario);
+
+    console.log(beneficiarios);
 }

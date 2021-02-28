@@ -1,1 +1,34 @@
-﻿
+﻿<div id="MdlBeneficiarios" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="MdlBeneficiariosTitulo" class="modal-title">Beneficiarios</h4>
+            </div>
+            <div class="modal-body">
+                <form id="MdlBeneficiarios_form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="MdlBeneficiarios_Nome">Nome:</label>
+                                <input required="required" type="text" class="form-control" id="MdlBeneficiarios_Nome" name="MdlBeneficiarios_Nome" placeholder="Ex.: João" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="MdlBeneficiarios_CPF">CPF:</label>
+                                <input required="required" type="text" class="form-control" id="MdlBeneficiarios_CPF" name="MdlBeneficiarios_CPF" maxlength="11" placeholder="Ex.: 111.111.111-11" pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}">
+                            </div>
+                        </div>
+                        <div class="col-lg-2" style="padding-top:27px">
+                            <button type="submit" class="btn btn-sm btn-success">Incluir</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div> <!-- /.modal -->      
